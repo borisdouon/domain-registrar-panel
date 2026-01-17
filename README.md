@@ -359,8 +359,7 @@ I'm open to collaborations on innovative SaaS projects. Whether you have an idea
 - 📧 **LinkedIn**: [boris-douon](https://www.linkedin.com/in/boris-douon/)
 - 💬 **WhatsApp**: +225 07 88 23 36 47
 - 📧 **Email**: douon2010@gmail.com
-- 🌐 **Portfolio**: Coming Soon
-
+- 🌐 **Portfolio**: (https://boris-douon-portfolio.netlify.app/)
 ---
 
 ## 🌟 Project Highlights

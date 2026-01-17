@@ -26,3 +26,6 @@ pnpm-debug.log*
 # wrangler local state
 .wrangler/
 .dev.vars
+
+# docs folder
+docs/

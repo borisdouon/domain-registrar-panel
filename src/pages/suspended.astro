@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SuspendedDomainsTable } from '../components/suspended/SuspendedDomainsTable';
+---
+
+<Layout title="Suspended Domains">
+  <SuspendedDomainsTable client:load />
+</Layout>

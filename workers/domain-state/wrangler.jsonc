@@ -1,0 +1,20 @@
+{
+	"name": "domain-state-worker",
+	"main": "index.ts",
+	"compatibility_date": "2026-01-17",
+	"compatibility_flags": ["nodejs_compat"],
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "DOMAIN_STATE",
+				"class_name": "DomainStateMachine"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": ["DomainStateMachine"]
+		}
+	]
+}

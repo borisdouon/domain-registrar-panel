@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { RegistrantsTable } from '../components/registrants/RegistrantsTable';
+import { Toaster } from '../components/ui/toaster';
+---
+
+<Layout title="Registrants">
+  <RegistrantsTable client:load />
+  <Toaster client:load />
+</Layout>

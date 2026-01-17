@@ -14,6 +14,11 @@
 
 [Live Demo](https://domain-registrar-panel.douon2010.workers.dev) · [Documentation](docs/project-overview.md) · [Report Bug](https://github.com/borisdouon/domain-registrar-panel/issues)
 
+**🌐 Live URLs:**
+- **Main Application**: https://domain-registrar-panel.douon2010.workers.dev
+- **Cloudflare Worker**: https://domain-registrar-panel.douon2010.workers.dev
+- **Durable Object Worker**: https://domain-state-worker.douon2010.workers.dev
+
 </div>
 
 ---
@@ -80,19 +85,19 @@ DomainRegistrar Control Plane is a cloud-native platform designed to manage the 
 ## 📸 Screenshots
 
 ### Dashboard Overview
-![Dashboard](docs/screenshot/image.png)
+![Dashboard](public/screenshots/dashboard.png)
 *Real-time domain metrics and lifecycle state distribution*
 
 ### Domain Management
-![Domains](docs/screenshot/image%20copy.png)
+![Domains](public/screenshots/domains.png)
 *Complete domain registry with state tracking and actions*
 
 ### Registrant Management
-![Registrants](docs/screenshot/image%20copy%202.png)
+![Registrants](public/screenshots/registrants.png)
 *Registrant accounts with email verification status*
 
 ### Metrics & Analytics
-![Metrics](docs/screenshot/image%20copy%203.png)
+![Metrics](public/screenshots/metrics.png)
 *Real-time observability with Cloudflare Analytics Engine*
 
 ---
@@ -287,7 +292,10 @@ npm run build
 npx wrangler deploy
 ```
 
-Your application will be available at `https://your-worker.workers.dev`
+**🚀 Deployed URLs:**
+- **Main Application**: https://domain-registrar-panel.douon2010.workers.dev
+- **Durable Object Worker**: https://domain-state-worker.douon2010.workers.dev
+- **Analytics Dashboard**: https://domain-registrar-panel.douon2010.workers.dev/metrics
 
 ### Deploy Durable Object Worker
 
@@ -301,6 +309,14 @@ npx wrangler deploy
 1. **Enable Analytics Engine** in Cloudflare Dashboard
 2. **Configure Email Routing** (optional, for custom domain emails)
 3. **Set up monitoring** and alerts
+
+### Cloudflare Resources
+
+- **Worker**: `domain-registrar-panel`
+- **Durable Object**: `domain-state-worker`
+- **D1 Database**: `domain-registrar-db`
+- **KV Namespace**: `DOMAIN_CACHE`
+- **Analytics Engine**: `domain_metrics`
 
 ---
 

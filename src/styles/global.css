@@ -55,3 +55,13 @@
   from { height: var(--radix-accordion-content-height); }
   to { height: 0; }
 }
+
+@keyframes scan {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(400px);
+  }
+}

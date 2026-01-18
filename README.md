@@ -15,6 +15,7 @@
 [Live Demo](https://domain-registrar-panel.douon2010.workers.dev) · [Documentation](docs/project-overview.md) · [Report Bug](https://github.com/borisdouon/domain-registrar-panel/issues)
 
 **🌐 Live URLs:**
+
 - **Main Application**: https://domain-registrar-panel.douon2010.workers.dev
 - **Cloudflare Worker**: https://domain-registrar-panel.douon2010.workers.dev
 - **Durable Object Worker**: https://domain-state-worker.douon2010.workers.dev
@@ -48,33 +49,43 @@ This platform manages the complete lifecycle of internet domains — from regist
 
 DomainRegistrar Control Plane is a cloud-native platform designed to manage the complete lifecycle of internet domains — from registration to expiration — while enforcing compliance, security, auditability, and performance at global scale.
 
-## ✨ Features
+### Mission Control Command Center
+
+- ✅ **Dynamic Command Center** - Real-time monitoring of global domain activity
+- ✅ **Live Technical Activity Log** - High-precision telemetry with sub-millisecond timestamps
+- ✅ **Context-Aware Technical Cursor** - Interactive cursor that adapts based on the hover target (SCANNING, ANALYZING, VERIFIED)
+- ✅ **Professional Profile & Hub** - Integrated collaboration hub for SaaS projects directly in settings
 
 ### Domain Lifecycle Management
+
 - ✅ **Full State Machine** - Complete domain lifecycle from Available → Registered → Active → Expiring → Grace Period → Redemption → Deleted
 - ✅ **State Validation** - Durable Objects enforce valid state transitions
 - ✅ **Automatic Transitions** - Time-based state changes (expiration, grace period)
 - ✅ **Manual Controls** - Suspend, lock, unlock, renew domains
 
 ### Registrant Management
+
 - ✅ **Email Verification** - Automated verification emails via MailChannels
 - ✅ **Contact Validation** - WHOIS-compliant registrant data
 - ✅ **Multi-Registrant** - Support for multiple domain owners
 - ✅ **Verification Status** - Track verified vs unverified registrants
 
 ### Observability & Compliance
+
 - ✅ **Real-Time Metrics** - Cloudflare Analytics Engine integration
 - ✅ **Audit Trail** - Complete transition history
 - ✅ **Abuse Reporting** - Trust & safety workflows
 - ✅ **Activity Logs** - Comprehensive event logging
 
-### Enterprise UI
+### Enterprise UI & UX
+
+- ✅ **Mission Control Aesthetic** - Premium, interactive dashboard with "Glassmorphism" and "Hacker-Tech" vibes
+- ✅ **Custom Tech Cursor** - Dual-mode cursor for deep technical immersion
 - ✅ **Modern Dashboard** - Built with shadcn/ui components
-- ✅ **Real-Time Updates** - Live data from edge
 - ✅ **Responsive Design** - Works on all devices
-- ✅ **Dark Mode Ready** - Professional appearance
 
 ### Edge-Native Architecture
+
 - ✅ **Global Distribution** - Runs on Cloudflare's 300+ edge locations
 - ✅ **Near-Zero Latency** - Sub-50ms response times worldwide
 - ✅ **Serverless** - No servers to manage
@@ -84,27 +95,32 @@ DomainRegistrar Control Plane is a cloud-native platform designed to manage the 
 
 ## 📸 Screenshots
 
-### Dashboard Overview
+### Mission Control UI
+
 ![Dashboard](public/screenshots/dashboard.png)
-*Real-time domain metrics and lifecycle state distribution*
+_Command center with live technical telemetry and global metrics_
 
 ### Domain Management
-![Domains](public/screenshots/domains.png)
-*Complete domain registry with state tracking and actions*
 
-### Registrant Management
-![Registrants](public/screenshots/registrants.png)
-*Registrant accounts with email verification status*
+![Domains](public/screenshots/domains.png)
+_Complete domain registry with state tracking and actions_
+
+### Professional Profile
+
+![Profile](public/screenshots/profile.png)
+_Integrated profile hub for Boris Douon and collaboration details_
 
 ### Metrics & Analytics
+
 ![Metrics](public/screenshots/metrics.png)
-*Real-time observability with Cloudflare Analytics Engine*
+_Real-time observability with Cloudflare Analytics Engine_
 
 ---
 
 ## 🛠 Tech Stack
 
 ### Frontend
+
 - **[Astro](https://astro.build/)** - Server-side rendering at the edge
 - **[React](https://react.dev/)** - Interactive UI components
 - **[TailwindCSS](https://tailwindcss.com/)** - Utility-first styling
@@ -112,6 +128,7 @@ DomainRegistrar Control Plane is a cloud-native platform designed to manage the 
 - **[Recharts](https://recharts.org/)** - Data visualization
 
 ### Backend & Infrastructure
+
 - **[Cloudflare Workers](https://workers.cloudflare.com/)** - Serverless edge compute
 - **[Cloudflare D1](https://developers.cloudflare.com/d1/)** - Serverless SQL database
 - **[Cloudflare Durable Objects](https://developers.cloudflare.com/durable-objects/)** - Distributed state machines
@@ -120,6 +137,7 @@ DomainRegistrar Control Plane is a cloud-native platform designed to manage the 
 - **[MailChannels](https://www.mailchannels.com/)** - Email delivery (free for Workers)
 
 ### Development
+
 - **[TypeScript](https://www.typescriptlang.org/)** - Type-safe development
 - **[Wrangler](https://developers.cloudflare.com/workers/wrangler/)** - Cloudflare CLI
 - **[Vite](https://vitejs.dev/)** - Fast build tooling
@@ -162,23 +180,23 @@ src/
 
 ## Commands
 
-| Command | Action |
-|:--------|:-------|
-| `npm install` | Install dependencies |
-| `npm run dev` | Start local dev server at `localhost:4321` |
-| `npm run build` | Build for production |
-| `npx wrangler d1 execute domain-registrar-db --local --file=src/db/schema.sql` | Run D1 migrations locally |
-| `npx wrangler d1 execute domain-registrar-db --remote --file=src/db/schema.sql` | Run D1 migrations in production |
-| `npx wrangler deploy` | Deploy to Cloudflare |
+| Command                                                                         | Action                                     |
+| :------------------------------------------------------------------------------ | :----------------------------------------- |
+| `npm install`                                                                   | Install dependencies                       |
+| `npm run dev`                                                                   | Start local dev server at `localhost:4321` |
+| `npm run build`                                                                 | Build for production                       |
+| `npx wrangler d1 execute domain-registrar-db --local --file=src/db/schema.sql`  | Run D1 migrations locally                  |
+| `npx wrangler d1 execute domain-registrar-db --remote --file=src/db/schema.sql` | Run D1 migrations in production            |
+| `npx wrangler deploy`                                                           | Deploy to Cloudflare                       |
 
 ## API Endpoints
 
-| Endpoint | Method | Description |
-|:---------|:-------|:------------|
-| `/api/domains` | GET | List all domains |
-| `/api/domains` | POST | Register a new domain |
-| `/api/domains/[id]/transition` | POST | Transition domain state |
-| `/api/metrics` | GET | Get platform metrics |
+| Endpoint                       | Method | Description             |
+| :----------------------------- | :----- | :---------------------- |
+| `/api/domains`                 | GET    | List all domains        |
+| `/api/domains`                 | POST   | Register a new domain   |
+| `/api/domains/[id]/transition` | POST   | Transition domain state |
+| `/api/metrics`                 | GET    | Get platform metrics    |
 
 ## Cloudflare Bindings
 
@@ -244,17 +262,20 @@ wrangler login
 ### Installation
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/borisdouon/domain-registrar-panel.git
 cd domain-registrar-panel
 ```
 
 2. **Install dependencies**
+
 ```bash
 npm install
 ```
 
 3. **Set up D1 database**
+
 ```bash
 # Create D1 database
 wrangler d1 create domain-registrar-db
@@ -267,6 +288,7 @@ npx wrangler d1 execute domain-registrar-db --remote --file=src/db/schema.sql
 ```
 
 4. **Create KV namespace**
+
 ```bash
 wrangler kv:namespace create DOMAIN_CACHE
 ```
@@ -274,6 +296,7 @@ wrangler kv:namespace create DOMAIN_CACHE
 5. **Update wrangler.jsonc** with your resource IDs
 
 6. **Start development server**
+
 ```bash
 npm run dev
 ```
@@ -293,6 +316,7 @@ npx wrangler deploy
 ```
 
 **🚀 Deployed URLs:**
+
 - **Main Application**: https://domain-registrar-panel.douon2010.workers.dev
 - **Durable Object Worker**: https://domain-state-worker.douon2010.workers.dev
 - **Analytics Dashboard**: https://domain-registrar-panel.douon2010.workers.dev/metrics
@@ -329,6 +353,7 @@ npx wrangler deploy
 <div align="center">
 
 ### **BORIS DOUON**
+
 **Full Stack AI-Software Engineer**
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/boris-douon/)
@@ -339,12 +364,14 @@ npx wrangler deploy
 </div>
 
 #### 🎯 Expertise
+
 - **AI & Machine Learning** - LLMs, RAG, Vector Databases, Agentic Systems
 - **Full Stack Development** - React, Next.js, Astro, Node.js, Python
 - **Cloud & Edge Computing** - Cloudflare Workers, AWS, Serverless Architecture
 - **SaaS Development** - End-to-end product development and deployment
 
 #### 💼 Services
+
 - 🚀 **SaaS Development** - From idea to production
 - 🤖 **AI Integration** - LLM-powered applications
 - ⚡ **Edge Computing** - Cloudflare Workers expertise
@@ -356,10 +383,12 @@ npx wrangler deploy
 I'm open to collaborations on innovative SaaS projects. Whether you have an idea or need technical expertise, let's build something amazing together!
 
 **Contact:**
+
 - 📧 **LinkedIn**: [boris-douon](https://www.linkedin.com/in/boris-douon/)
 - 💬 **WhatsApp**: +225 07 88 23 36 47
 - 📧 **Email**: douon2010@gmail.com
 - 🌐 **Portfolio**: (https://boris-douon-portfolio.netlify.app/)
+
 ---
 
 ## 🌟 Project Highlights
@@ -423,7 +452,7 @@ If you have questions or need help:
 
 **Built with ❤️ by [BORIS DOUON](https://www.linkedin.com/in/boris-douon/)**
 
-*Powered by Cloudflare Workers · Deployed at the Edge · Globally Distributed*
+_Powered by Cloudflare Workers · Deployed at the Edge · Globally Distributed_
 
 ⭐ Star this repo if you find it useful!
 

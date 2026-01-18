@@ -25,6 +25,7 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 const navigationItems = [
   {
@@ -77,23 +78,33 @@ const observabilityItems = [
   },
 ];
 
-export function AppSidebar() {
+interface AppSidebarProps {
+  currentPath?: string;
+}
+
+function isActive(itemUrl: string, currentPath: string): boolean {
+  if (itemUrl === "/") {
+    return currentPath === "/" || currentPath === "";
+  }
+  return currentPath.startsWith(itemUrl);
+}
+
+export function AppSidebar({ currentPath = "/" }: AppSidebarProps) {
   return (
     <Sidebar
       collapsible="none"
-      className="border-r border-border bg-background/80 backdrop-blur-md"
+      className="border-r-2 border-zinc-200 bg-white h-full"
     >
-      <SidebarHeader className="border-b border-white/10 px-6 py-4">
+      <SidebarHeader className="border-b-2 border-zinc-100 px-6 py-4 bg-white">
         <div className="flex items-center gap-3">
-          <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-red-600">
-            <Globe className="h-6 w-6 text-white animate-pulse" />
-            <div className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-500 ring-2 ring-black animate-ping" />
+          <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-orange-500 text-white shadow-none">
+            <Globe className="h-6 w-6" />
           </div>
           <div className="flex flex-col">
-            <span className="text-base font-bold text-foreground tracking-wide">
+            <span className="text-base font-bold text-zinc-900 tracking-wide">
               DomainRegistrar
             </span>
-            <span className="text-[10px] font-medium text-orange-500 uppercase tracking-widest">
+            <span className="text-[10px] font-bold text-orange-600 uppercase tracking-widest">
               Control Plane
             </span>
           </div>
@@ -101,25 +112,33 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent className="px-4 py-2">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-bold text-muted-foreground/70 uppercase tracking-wider mb-2">
+          <SidebarGroupLabel className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">
             Systems
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navigationItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    size="lg"
-                    className="hover:bg-orange-500/10 hover:text-orange-500 transition-all duration-300"
-                  >
-                    <a href={item.url} className="flex items-center gap-3">
-                      <item.icon className="h-5 w-5" />
-                      <span className="font-medium">{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {navigationItems.map((item) => {
+                const active = isActive(item.url, currentPath);
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      size="lg"
+                      className={cn(
+                        "transition-colors duration-200",
+                        active
+                          ? "bg-orange-500/10 text-orange-600 border-l-2 border-orange-500"
+                          : "hover:bg-zinc-100 hover:text-orange-600 text-zinc-600",
+                      )}
+                    >
+                      <a href={item.url} className="flex items-center gap-3">
+                        <item.icon className="h-5 w-5" />
+                        <span className="font-medium">{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -127,38 +146,46 @@ export function AppSidebar() {
         <SidebarSeparator className="bg-white/5 my-2" />
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-bold text-muted-foreground/70 uppercase tracking-wider mb-2">
+          <SidebarGroupLabel className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">
             Trust & Safety
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {trustSafetyItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    size="lg"
-                    className="hover:bg-red-500/10 hover:text-red-500 transition-all duration-300"
-                  >
-                    <a
-                      href={item.url}
-                      className="flex items-center gap-3 justify-between w-full"
-                    >
-                      <div className="flex items-center gap-3">
-                        <item.icon className="h-5 w-5" />
-                        <span className="font-medium">{item.title}</span>
-                      </div>
-                      {item.badge && (
-                        <Badge
-                          variant="destructive"
-                          className="h-5 px-1.5 text-[10px] min-w-5 flex items-center justify-center"
-                        >
-                          {item.badge}
-                        </Badge>
+              {trustSafetyItems.map((item) => {
+                const active = isActive(item.url, currentPath);
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      size="lg"
+                      className={cn(
+                        "transition-colors duration-200",
+                        active
+                          ? "bg-red-500/10 text-red-600 border-l-2 border-red-500"
+                          : "hover:bg-zinc-100 hover:text-red-600 text-zinc-600",
                       )}
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                    >
+                      <a
+                        href={item.url}
+                        className="flex items-center gap-3 justify-between w-full"
+                      >
+                        <div className="flex items-center gap-3">
+                          <item.icon className="h-5 w-5" />
+                          <span className="font-medium">{item.title}</span>
+                        </div>
+                        {item.badge && (
+                          <Badge
+                            variant="destructive"
+                            className="h-5 px-1.5 text-[10px] min-w-5 flex items-center justify-center"
+                          >
+                            {item.badge}
+                          </Badge>
+                        )}
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -166,36 +193,44 @@ export function AppSidebar() {
         <SidebarSeparator className="bg-white/5 my-2" />
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-bold text-muted-foreground/70 uppercase tracking-wider mb-2">
+          <SidebarGroupLabel className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">
             Observability
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {observabilityItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    size="lg"
-                    className="hover:bg-blue-500/10 hover:text-blue-500 transition-all duration-300"
-                  >
-                    <a href={item.url} className="flex items-center gap-3">
-                      <item.icon className="h-5 w-5" />
-                      <span className="font-medium">{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {observabilityItems.map((item) => {
+                const active = isActive(item.url, currentPath);
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      size="lg"
+                      className={cn(
+                        "transition-colors duration-200",
+                        active
+                          ? "bg-blue-500/10 text-blue-600 border-l-2 border-blue-500"
+                          : "hover:bg-zinc-100 hover:text-blue-600 text-zinc-600",
+                      )}
+                    >
+                      <a href={item.url} className="flex items-center gap-3">
+                        <item.icon className="h-5 w-5" />
+                        <span className="font-medium">{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="border-t border-white/10 p-4">
+      <SidebarFooter className="border-t-2 border-zinc-100 p-4 bg-white">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
               size="lg"
-              className="hover:bg-white/5 transition-all"
+              className="hover:bg-zinc-100 transition-colors text-zinc-900"
             >
               <a href="/settings" className="flex items-center gap-3">
                 <Settings className="h-5 w-5" />

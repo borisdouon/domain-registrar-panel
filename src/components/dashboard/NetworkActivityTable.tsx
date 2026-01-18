@@ -36,6 +36,7 @@ const operations = [
     },
     icon: Database,
     trend: [40, 35, 55, 60, 58, 65, 78, 80, 75, 82, 90, 85],
+    trend24h: [50, 55, 45, 60, 65, 60, 70, 75, 80, 78, 85, 90],
   },
   {
     id: "op-2",
@@ -49,6 +50,7 @@ const operations = [
     },
     icon: Globe,
     trend: [60, 65, 62, 68, 70, 72, 75, 74, 78, 80, 82, 85],
+    trend24h: [55, 60, 65, 70, 68, 72, 75, 80, 78, 82, 85, 88],
   },
   {
     id: "op-3",
@@ -62,6 +64,7 @@ const operations = [
     },
     icon: AlertTriangle,
     trend: [30, 45, 40, 35, 50, 45, 60, 55, 50, 40, 35, 30],
+    trend24h: [40, 38, 42, 45, 40, 50, 48, 55, 50, 45, 40, 35],
   },
   {
     id: "op-4",
@@ -75,6 +78,7 @@ const operations = [
     },
     icon: RefreshCw,
     trend: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    trend24h: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   {
     id: "op-5",
@@ -88,6 +92,7 @@ const operations = [
     },
     icon: Database,
     trend: [10, 20, 15, 25, 30, 45, 40, 50, 60, 55, 65, 70],
+    trend24h: [15, 25, 20, 30, 35, 50, 45, 55, 65, 60, 70, 75],
   },
   {
     id: "op-6",
@@ -101,6 +106,7 @@ const operations = [
     },
     icon: Activity,
     trend: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    trend24h: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
 ];
 
@@ -130,6 +136,80 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
           strokeLinecap="round"
           strokeLinejoin="round"
         />
+      </svg>
+    </div>
+  );
+}
+
+function CircuitStream({ color }: { color: string }) {
+  // Generate a random-looking path for the "circuit"
+  // Simple sine wave variety
+  const gradientId = `gradient-${color.replace("#", "")}`;
+
+  return (
+    <div className="h-8 w-full flex items-center justify-center overflow-hidden relative">
+      <svg
+        viewBox="0 0 100 20"
+        className="h-full w-full overflow-visible"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor={color} stopOpacity="0" />
+            <stop offset="50%" stopColor={color} stopOpacity="1" />
+            <stop offset="100%" stopColor={color} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        {/* Background Trace */}
+        <path
+          d="M0 10 Q 25 20, 50 10 T 100 10"
+          fill="none"
+          stroke={color}
+          strokeWidth="1"
+          strokeOpacity="0.2"
+          vectorEffect="non-scaling-stroke"
+        />
+        {/* Live Electron */}
+        <circle r="1.5" fill={color}>
+          <animateMotion
+            dur="2s"
+            repeatCount="indefinite"
+            path="M0 10 Q 25 20, 50 10 T 100 10"
+            calcMode="spline"
+            keySplines="0.4 0 0.2 1"
+          />
+          <animate
+            attributeName="opacity"
+            values="0;1;1;0"
+            keyTimes="0;0.1;0.9;1"
+            dur="2s"
+            repeatCount="indefinite"
+          />
+        </circle>
+        {/* Pulse Effect */}
+        <path
+          d="M0 10 Q 25 20, 50 10 T 100 10"
+          fill="none"
+          stroke={`url(#${gradientId})`}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeDasharray="0 100"
+          vectorEffect="non-scaling-stroke"
+        >
+          <animate
+            attributeName="stroke-dasharray"
+            values="0 100; 20 100; 0 100"
+            keyTimes="0;0.5;1"
+            dur="2s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="stroke-dashoffset"
+            values="100; 0; -100"
+            dur="2s"
+            repeatCount="indefinite"
+          />
+        </path>
       </svg>
     </div>
   );
@@ -166,11 +246,13 @@ export function NetworkActivityTable() {
       <CardContent className="p-0">
         <div className="w-full">
           {/* Table Header - Sticky */}
-          <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-3 bg-zinc-50 border-b border-zinc-100 text-[10px] font-bold uppercase tracking-wider text-zinc-500 relative z-20">
-            <div className="col-span-4">Operation Name</div>
+          <div className="hidden md:grid grid-cols-[repeat(14,minmax(0,1fr))] gap-4 px-6 py-3 bg-zinc-50 border-b border-zinc-100 text-[10px] font-bold uppercase tracking-wider text-zinc-500 relative z-20">
+            <div className="col-span-3">Operation Name</div>
             <div className="col-span-2">Status</div>
             <div className="col-span-2">Latency</div>
-            <div className="col-span-2">Success Rate</div>
+            <div className="col-span-1">Success Rate</div>
+            <div className="col-span-2 text-center">Live Circuit</div>
+            <div className="col-span-2 text-right">Activity (24H)</div>
             <div className="col-span-2 text-right">Activity (1h)</div>
           </div>
 
@@ -198,7 +280,7 @@ export function NetworkActivityTable() {
                 return (
                   <div
                     key={op.id}
-                    className="group/row relative grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-zinc-50 transition-colors duration-200 animate-in fade-in slide-in-from-right-4 duration-500 ease-out"
+                    className="group/row relative grid grid-cols-1 md:grid-cols-[repeat(14,minmax(0,1fr))] gap-4 px-6 py-4 items-center hover:bg-zinc-50 transition-colors duration-200 animate-in fade-in slide-in-from-right-4 duration-500 ease-out"
                     style={{ animationDelay: `${i * 100}ms` }}
                   >
                     {/* Active Indicator Line */}
@@ -211,7 +293,7 @@ export function NetworkActivityTable() {
                     />
 
                     {/* Name & Desc */}
-                    <div className="col-span-1 md:col-span-4 flex items-start gap-4">
+                    <div className="col-span-1 md:col-span-3 flex items-start gap-4">
                       <div className="mt-1 p-2 rounded-lg bg-white border border-zinc-100">
                         {/* Removed shadow-sm */}
                         <op.icon className="h-4 w-4 text-zinc-600" />
@@ -250,11 +332,30 @@ export function NetworkActivityTable() {
                     <div className="hidden md:flex col-span-2 font-mono text-xs font-medium text-zinc-600">
                       {op.metrics.latency}
                     </div>
-                    <div className="hidden md:flex col-span-2 font-mono text-xs font-medium text-zinc-600">
+                    <div className="hidden md:flex col-span-1 font-mono text-xs font-medium text-zinc-600">
                       {op.metrics.successRate}
                     </div>
 
-                    {/* Sparkline & Actions */}
+                    {/* Circuit Animation */}
+                    <div className="hidden md:flex col-span-2 items-center justify-center">
+                      {op.status !== "Idle" && (
+                        <div className="w-full max-w-[120px] opacity-70 group-hover/row:opacity-100 transition-opacity">
+                          <CircuitStream color={sparklineColor} />
+                        </div>
+                      )}
+                      {op.status === "Idle" && (
+                        <div className="h-[2px] w-full max-w-[80px] bg-zinc-100 rounded-full" />
+                      )}
+                    </div>
+
+                    {/* Sparkline (24H) */}
+                    <div className="col-span-1 md:col-span-2 hidden md:flex items-center justify-end gap-4">
+                      <div className="opacity-50 group-hover/row:opacity-100 transition-opacity">
+                        <Sparkline data={op.trend24h} color={sparklineColor} />
+                      </div>
+                    </div>
+
+                    {/* Sparkline (1H) & Actions */}
                     <div className="col-span-1 md:col-span-2 flex items-center justify-end gap-4">
                       <div className="opacity-50 group-hover/row:opacity-100 transition-opacity">
                         <Sparkline data={op.trend} color={sparklineColor} />

@@ -39,7 +39,11 @@ export function Dashboard() {
 
   if (loading) {
     return (
-      <DashboardShell title="Dashboard" description="Domain lifecycle overview">
+      <DashboardShell
+        title="Dashboard"
+        description="Domain lifecycle overview"
+        currentPath="/"
+      >
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
@@ -49,7 +53,11 @@ export function Dashboard() {
 
   if (error || !data) {
     return (
-      <DashboardShell title="Dashboard" description="Domain lifecycle overview">
+      <DashboardShell
+        title="Dashboard"
+        description="Domain lifecycle overview"
+        currentPath="/"
+      >
         <div className="flex flex-col items-center justify-center h-64 text-center">
           <p className="text-destructive mb-2">
             {error || "Failed to load dashboard"}
@@ -66,7 +74,11 @@ export function Dashboard() {
   }
 
   return (
-    <DashboardShell title="Dashboard" description="Domain lifecycle overview">
+    <DashboardShell
+      title="Dashboard"
+      description="Domain lifecycle overview"
+      currentPath="/"
+    >
       <div className="space-y-6">
         <StatsCards
           totalDomains={data.metrics.totalDomains}

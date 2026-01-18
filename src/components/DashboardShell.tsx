@@ -1,29 +1,35 @@
-import {
-  SidebarProvider,
-  SidebarInset,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Bell, Search, User } from "lucide-react";
+import { Bell, Search, User, LogOut } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface DashboardShellProps {
   children: React.ReactNode;
   title: string;
   description?: string;
+  currentPath?: string;
 }
 
 export function DashboardShell({
   children,
   title,
   description,
+  currentPath = "/",
 }: DashboardShellProps) {
   return (
-    <SidebarProvider defaultOpen>
-      <AppSidebar />
-      <SidebarInset className="bg-background/95 backdrop-blur-sm transition-all duration-300 ease-in-out">
-        <header className="flex h-16 shrink-0 items-center border-b px-6 sticky top-0 z-10 bg-background/80 backdrop-blur-md">
+    <SidebarProvider defaultOpen className="h-screen overflow-hidden">
+      <AppSidebar currentPath={currentPath} />
+      <SidebarInset className="bg-zinc-50/50 backdrop-blur-xl transition-all duration-300 ease-in-out overflow-hidden flex flex-col">
+        <header className="flex h-16 shrink-0 items-center border-b border-zinc-100 px-6 sticky top-0 z-10 bg-white/80 backdrop-blur-sm">
           <div className="flex flex-1 items-center justify-between max-w-[1600px] mx-auto w-full">
             <div className="flex items-center gap-4">
               <div className="flex flex-col">
@@ -40,9 +46,9 @@ export function DashboardShell({
 
             <div className="flex items-center gap-4">
               {/* HUD Elements */}
-              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-muted/50 rounded-full border border-white/5">
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-zinc-100 rounded-full border border-zinc-200">
                 <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-600">
                   System Optimal
                 </span>
               </div>
@@ -66,16 +72,37 @@ export function DashboardShell({
 
                 <Separator orientation="vertical" className="h-4 mx-2" />
 
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="gap-2 text-sm font-medium"
-                >
-                  <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-zinc-800 to-zinc-700 border border-white/10 flex items-center justify-center">
-                    <User className="h-3 w-3 text-zinc-400" />
-                  </div>
-                  <span className="hidden md:inline-block">Admin</span>
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="gap-2 text-sm font-medium focus-visible:ring-0"
+                    >
+                      <div className="h-6 w-6 rounded-full bg-black border border-zinc-200 flex items-center justify-center">
+                        <User className="h-3 w-3 text-white" />
+                      </div>
+                      <span className="hidden md:inline-block text-zinc-700">
+                        Boris Douon
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="cursor-pointer" asChild>
+                      <a href="/settings" className="flex items-center w-full">
+                        <User className="mr-2 h-4 w-4" />
+                        <span>Profile</span>
+                      </a>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Sign out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
           </div>
@@ -86,18 +113,6 @@ export function DashboardShell({
             {children}
           </div>
         </main>
-
-        <footer className="border-t px-6 py-4 bg-background/50">
-          <div className="flex items-center justify-center text-xs text-muted-foreground max-w-[1600px] mx-auto w-full">
-            <p>
-              Developed by{" "}
-              <span className="font-semibold text-foreground tracking-wide">
-                BORIS DOUON
-              </span>{" "}
-              • Full Stack AI-Software Engineer
-            </p>
-          </div>
-        </footer>
       </SidebarInset>
     </SidebarProvider>
   );

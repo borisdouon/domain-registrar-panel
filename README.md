@@ -17,8 +17,6 @@
 **🌐 Live URLs:**
 
 - **Main Application**: https://domain-registrar-panel.douon2010.workers.dev
-- **Cloudflare Worker**: https://domain-registrar-panel.douon2010.workers.dev
-- **Durable Object Worker**: https://domain-state-worker.douon2010.workers.dev
 
 </div>
 
@@ -318,7 +316,6 @@ npx wrangler deploy
 **🚀 Deployed URLs:**
 
 - **Main Application**: https://domain-registrar-panel.douon2010.workers.dev
-- **Durable Object Worker**: https://domain-state-worker.douon2010.workers.dev
 - **Analytics Dashboard**: https://domain-registrar-panel.douon2010.workers.dev/metrics
 
 ### Deploy Durable Object Worker
